@@ -1,0 +1,80 @@
+<html lang="ja" prefix="og: http://ogp.me/ns#">
+    <head>
+        <meta name="google-site-verification" content="omBKXh5-EXjQ1tp3Zhh6Oy1JWoA8D2SYIz1sAUy8pqE" />
+        <meta property="og:title" content="タイトル">
+        <meta property="og:type" content="article">
+        <meta property="og:description" content="">
+        <meta property="og:url" content="https://unikuma.github.io/memo_tmp">
+        <meta property="og:site_name" content="うにくまの住処">
+        <meta property="og:image" content="">
+        <meta name="keywords" content="C++,プログラム,プログラミング">
+        <title>タイトル</title>
+        <style type="text/css">
+            p{
+                font-size: 18px;
+                color: rgb(0, 65, 0);
+            }
+            h1,h2,a{
+                color: rgb(0, 65, 0);
+            }
+            body{
+                background-color: rgb(220, 255, 200);
+            }
+        </style>
+    </head>
+    <body>
+        <h1>LNK2019: 未解決の外部シンボル ○○ が関数 ○○ で参照されました</h1>
+        <p>Win32をやろうとネットで拾ったコードをコピペしてコンパイルしようとしたらこんなエラーが出た人もいるのでは。</p>
+        <p>自分もこのエラーの解決策が分からず最初諦めてた。</p>
+        <h2>解決策</h2>
+        <p>・libファイルをリンクしてない</p>
+        <p>自分の場合ではlibファイルをリンクすれば解決しました。</p>
+        <p>Win32ではとりあえず「user32.lib」と「gdi32.lib」をリンクすれば何とかなると思います。</p>
+        <h2>リンクする方法</h2>
+        <p>リンクする方法は2つ</p>
+        <ol>
+            <li><p>直接コードに書く</p></li>
+            <li><p>コンパイルする時に書く</p></li>
+        </ol>
+        <h2>1つ目</h2>
+        <p>直接コードに書く方法です。</p>
+        <p>これをやるには「#pragma comment」を使います。</p>
+        <p>・サンプルコード</p>
+        <p>sample.cpp</p>
+        <pre>
+            <code>
+#include &lt;Windows.h&gt;
+#pragma comment(lib,"user32.lib")
+
+int WINAPI WinMain(HINSTANCE hinst, HINSTANCE hprevinst, LPSTR lpcmdline, int ncmdshow){
+
+    return MessageBox(NULL, TEXT("hello"), TEXT("Windows.h"), MB_ICONINFORMATION|MB_OK);
+                
+}
+            </code>
+        </pre>
+        <p>個人的にはこっちの書き方の方が好き。</p>
+        <h2>2つ目</h2>
+        <p>コンパイルする時に書く方法です。</p>
+        <p>・サンプルコード</p>
+        <p>sample.cpp</p>
+        <pre>
+            <code>
+#include &lt;Windows.h&gt;
+    
+int WINAPI WinMain(HINSTANCE hinst, HINSTANCE hprevinst, LPSTR lpcmdline, int ncmdshow){
+    
+    return MessageBox(NULL, TEXT("hello"), TEXT("Windows.h"), MB_ICONINFORMATION|MB_OK);
+                    
+}
+            </code>
+        </pre>
+        <p>開発者用コマンドプロンプト</p>
+        <pre><code>cl sample.cpp user32.lib</code></pre>
+        <h2>筆者の環境</h2>
+        <p>Visual Studio Code</p>
+        <p>Visual Studio 2019 開発者用コマンドプロンプト</p>
+        <p>(Developer Command Prompt for VS 2019)</p>
+        <p><a href="index.html">戻る</a></p>
+    </body>
+</html>
